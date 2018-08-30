@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<config>
+    <connection>
+        <user>operator</user>>
+        <password>******</password> 
+    </connection>
+
+    <portalvariables>
+        <portalmode>standalone</portalmodo>
+        <portalappserver></portalappserver>
+        <portalhome>/opt/IBM/WebSphere/wp_profile</portalhome>
+        <portallogs>/opt/IBM/WebSphere/wp_profile/logs</portallogs>
+    </portalvariables>
+</config>
