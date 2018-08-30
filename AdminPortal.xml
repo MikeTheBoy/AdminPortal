@@ -8,7 +8,8 @@
     <portalvariables>
         <portalmode>standalone</portalmodo>
         <portalappserver></portalappserver>
-        <portalhome>/opt/IBM/WebSphere/wp_profile</portalhome>
+        <portalhome>/opt/IBM/WebSphere/</portalhome>
+        <portalprofile>wp_profile</portalhome>
         <portallogs>/opt/IBM/WebSphere/wp_profile/logs</portallogs>
     </portalvariables>
 </config>
