@@ -24,6 +24,7 @@ AppServer="$(echo "cat /config/portalvariables/portalappserver/text()" | xmllint
 #Operator Functions for Portal Websphere. 
 stop(){
     echo "O Sistema esta realizando o stop do portal"
+    echo "O Sistema esta realizando o stop do portal novamnte"
  
     
 }
