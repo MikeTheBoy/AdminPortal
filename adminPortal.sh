@@ -11,6 +11,9 @@ PortalMode="$(echo "cat /config/portalvariables/portalmode/text()" | xmllint --n
 PortalHome="$(echo "cat /config/portalvariables/portalhome/text()" | xmllint --nocdata --shell $XMLDATA |sed '1d;$d')"
 PortalProfile="$(echo "cat /config/portalvariables/portalprofile/text()" | xmllint --nocdata --shell $XMLDATA |sed '1d;$d')"
 PortalLogs="$(echo "cat /config/portalvariables/portallogs/text()" | xmllint --nocdata --shell $XMLDATA |sed '1d;$d')"
+Portaltemp="$(echo "cat /config/portalvariables/portaltemp/text()" | xmllint --nocdata --shell $XMLDATA |sed '1d;$d')"
+Portalwstemp="$(echo "cat /config/portalvariables/portalwstemp/text()" | xmllint --nocdata --shell $XMLDATA |sed '1d;$d')"
+Portaltranlog="$(echo "cat /config/portalvariables/portaltranlog/text()" | xmllint --nocdata --shell $XMLDATA |sed '1d;$d')"
 cachefile="./.cacheAdminPortal"
 Rerturn=""
 #Load user Informations off xml file. 
@@ -154,9 +157,88 @@ functionExecute () {
         then   
         list
     fi
+
+      if [ "$1" == "clear" ]
+        then   
+        clear $2
+    fi
+
+     if [ "$1" == "logs" ]
+        then   
+        logs $2
+    fi
 }
 
+clear () {
+
+    if [ -z  $1 ]
+        then 
+           instrucions
+    fi
+
+    if [[ $1 == "temp" ]]
+        then   
+        while true; do
+            read -p "Voce tem certza que deseja apagar o $Portaltemp ? -  y/n " yn
+            case $yn in
+                [Yy]* ) rm -rf $Portaltemp/* ; break;;
+                [Nn]* ) exit;;
+                * ) echo "Por favor Responda y or n";;
+            esac
+        done      
+    fi
+
+    if [[ $1 == "wstemp" ]]
+        then   
+
+        while true; do
+            read -p "Voce tem certza que deseja apagar o $Portalwstemp ? -  y/n " yn
+            case $yn in
+                [Yy]* ) rm -rf $Portalwstemp/* ; break;;
+                [Nn]* ) exit;;
+                * ) echo "Por favor Responda y or n";;
+            esac
+        done        
+    fi
+
+    if [[ $1 == "tranlog" ]]
+        then   
+         while true; do
+            read -p "Voce tem certza que deseja apagar o $Portaltranlog ? -  y/n " yn
+            case $yn in
+                [Yy]* ) rm -rf $Portaltranlog/* ; break;;
+                [Nn]* ) exit;;
+                * ) echo "Por favor Responda y or n";;
+            esac
+        done        
+    fi
+
+
+}
+
+logs (){
+
+    if [[ -z $1 ]]
+        then 
+        instrucions
+    fi
+
+    if [[ "$1" == "-" ]]
+        then  
+        tail -1000f $PortalLogs/$AppServer/SystemOut.log
+
+    fi
+    
+    if [[ "$1" == "$AppServer" ]]
+        then   
+        tail -5000 $PortalLogs/$AppServer/SystemOut.log
+    fi
+
+}
 instrucions (){ 
+
+    echo "#####################################################################################################"
+    echo " "
     echo "AdminPortal Versão 1.0 -  standalone server"
     echo "Este script contempla start / stop / status / list dos applications server do Admin portal Websphere."
     echo "Com o proposito de ter uma melhor gestão do ambiente e agilizar acoes neste ambiente"
@@ -178,6 +260,16 @@ instrucions (){
     echo " "
     echo "Para checar o status das instancias:"
     echo "/opt/scrips/AdminPortal.sh status"
+    echo " "
+    echo " "
+    echo "Para limpar o os temporarios do portal digitar o comando abaixo escolhendo entre as opcoes:"
+    echo "/opt/scrips/AdminPortal.sh clear temp/wstemp/tranlog"
+    echo " "
+    echo "Para visualizar os logs do portal execute o seguinte comando:"
+    echo "A opcao - permite ver o log corrente" 
+    echo "/opt/scrips/AdminPortal.sh logs <nome da instancia > / - "
+    echo " "
+    echo "#####################################################################################################"
 
 }
 functionExecute $1 $2
