@@ -6,10 +6,10 @@
     </connection>
 
     <portalvariables>
-        <portalmode>standalone</portalmodo>
-        <portalappserver></portalappserver>
-        <portalhome>/opt/IBM/WebSphere/</portalhome>
-        <portalprofile>wp_profile</portalhome>
-        <portallogs>/opt/IBM/WebSphere/wp_profile/logs</portallogs>
+        <portalmode>"standalone"</portalmode>
+        <portalappserver>WebSphere_Portal</portalappserver>
+        <portalhome>"/"opt/IBM/WebSphere/"</portalhome>
+        <portalprofile>"wp_profile"</portalprofile>
+        <portallogs>"/opt/IBM/WebSphere/wp_profile/logs</portallogs>
     </portalvariables>
 </config>
