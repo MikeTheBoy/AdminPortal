@@ -6,7 +6,7 @@
 
 #Load Variables off xml file.
 
-XMLDATA="./AdminPortal.xml"
+XMLDATA="/opt/scripts/AdminPortal.xml"
 PortalMode="$(echo "cat /config/portalvariables/portalmode/text()" | xmllint --nocdata --shell $XMLDATA |sed '1d;$d')"
 PortalHome="$(echo "cat /config/portalvariables/portalhome/text()" | xmllint --nocdata --shell $XMLDATA |sed '1d;$d')"
 PortalProfile="$(echo "cat /config/portalvariables/portalprofile/text()" | xmllint --nocdata --shell $XMLDATA |sed '1d;$d')"
@@ -14,7 +14,7 @@ PortalLogs="$(echo "cat /config/portalvariables/portallogs/text()" | xmllint --n
 Portaltemp="$(echo "cat /config/portalvariables/portaltemp/text()" | xmllint --nocdata --shell $XMLDATA |sed '1d;$d')"
 Portalwstemp="$(echo "cat /config/portalvariables/portalwstemp/text()" | xmllint --nocdata --shell $XMLDATA |sed '1d;$d')"
 Portaltranlog="$(echo "cat /config/portalvariables/portaltranlog/text()" | xmllint --nocdata --shell $XMLDATA |sed '1d;$d')"
-cachefile="./.cacheAdminPortal"
+cachefile="/opt/scripts/.cacheAdminPortal"
 Rerturn=""
 #Load user Informations off xml file. 
 
@@ -46,7 +46,7 @@ valida_online () {
 
     if ! [[ -z $Process ]]
         then
-        Rerturn="Online"
+        Rerturn="online"
     else 
         Rerturn="offline"
     fi 
@@ -56,16 +56,17 @@ stop () {
 
     ARG1=$1
 
-    if  [[ ($PortalMode == "standalone") ]]
+    if  [[  "$PortalMode" == "standalone"  ]]
         then
         valida_online $1
-            if [ $Rerturn == "Online"  ]
+            if [ "$Rerturn" == "online"  ]
                 then    
-                  
+                  Rerturn=""
                   if [[ ("$ARG1" == "$AppServer") ]]
                     then
                         echo "O Sistema esta realizando o stop do portal"
-                        $PortalHome/AppServer/bin/stopServer.sh $ARG -username $User -password $Password
+                        $PortalHome/AppServer/bin/stopServer.sh $ARG1 -username "$User" -password "$Password"
+                        
                 else
                     echo  "please insert a valid server"
                     list
@@ -82,12 +83,12 @@ stop () {
 start () {
     
       ARG1=$1
-     if  [[ ($PortalMode == "standalone") ]]
+     if  [[ "$PortalMode" == "standalone"  ]]
         then
         valida_online $1
-            if [ $Rerturn == "offline"  ]
+            if [ "$Rerturn" == "offline"  ]
                 then    
-                  
+                  Rerturn=""
                   if [[ ("$ARG1" == "$AppServer") ]]
                     then
                         echo "Starting th Server"
